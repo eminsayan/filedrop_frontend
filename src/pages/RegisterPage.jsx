@@ -1,13 +1,11 @@
-import React from "react";
-
+import RegisterForm from "@/components/RegisterForm"
 function RegisterPage() {
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <p className="mb-4">Kayıt formu buraya gelecek.</p>
-      </div>
+    <div className="h-screen flex items-center justify-center px-4 overflow-hidden">
+      <RegisterForm />
     </div>
   );
 }
 
 export default RegisterPage;
+

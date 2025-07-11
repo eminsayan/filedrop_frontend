@@ -19,25 +19,25 @@ function LoginForm() {
     <form>
       <Card className="w-full min-w-[450px] max-h-[550px] px-8 py-20 shadow-xl">
         <CardHeader className="gap-4">
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Hesabınıza Giriş Yapın</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Hesabınıza giriş yapmak için kullanıcı adınızı ve şifrenizi girin
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label>Kullanıcı Adı</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
+                id="username"
+                type="text"
+                placeholder="Kullanıcı Adı"
                 required
               />
             </div>
             <div className="grid gap-2">
               <div className="flex justify-center">
-                <Label htmlFor="password" className="text-center">Password</Label>
+                <Label htmlFor="password" className="text-center">Şifre</Label>
               </div>
               <Input id="password" type="password" required />
             </div>
@@ -46,15 +46,15 @@ function LoginForm() {
             href="#"
             className="ml-auto inline-block text-sm underline-offset-4 hover:underline py-3"
           >
-            Forgot your password?
+            Şifrenizi mi unuttunuz?
           </a>
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <Button type="submit" className="w-full">
-            Login
+            Giriş Yap
           </Button>
           <Button type="button" className="w-full" onClick={() => navigate("/register") }>
-            Sign Up
+            Kayıt Ol
           </Button>
         </CardFooter>
       </Card>

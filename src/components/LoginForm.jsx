@@ -17,7 +17,7 @@ function LoginForm() {
   const navigate = useNavigate();
   return (
     <form>
-      <Card className="w-full min-w-[450px] max-h-[550px] px-8 py-20 bg-gray-300 shadow-xl">
+      <Card className="w-full min-w-[450px] max-h-[550px] px-8 py-20 shadow-xl">
         <CardHeader className="gap-4">
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>

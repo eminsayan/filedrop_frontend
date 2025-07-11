@@ -148,7 +148,6 @@ html, body {
   height: 100%;
   overflow-x: hidden; /* Yatay taşmayı engelle */
   overflow-y: hidden;
-  background-color: #E5E7EB; /* bg-gray-200 */
 }
 
 .dark {

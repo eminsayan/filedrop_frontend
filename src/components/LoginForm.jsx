@@ -29,11 +29,9 @@ function LoginForm() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await api.post(
-        "/auth/login",
-        data
-      );
+      const res = await api.post("/auth/login", data);
       console.log("Giriş başarılı:", res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
       navigate("/dashboard");
     } catch (error) {
       console.error("Giriş hatası:", error);
@@ -63,13 +61,11 @@ function LoginForm() {
             </div>
             <div className="grid gap-2">
               <div className="flex justify-center">
-                <Label htmlFor="password" className="text-center">Şifre</Label>
+                <Label htmlFor="password" className="text-center">
+                  Şifre
+                </Label>
               </div>
-              <Input
-                id="password"
-                type="password"
-                {...register("password")}
-              />
+              <Input id="password" type="password" {...register("password")} />
             </div>
           </div>
           <a
@@ -83,7 +79,11 @@ function LoginForm() {
           <Button type="submit" className="w-full">
             Giriş Yap
           </Button>
-          <Button type="button" className="w-full" onClick={() => navigate("/register") }>
+          <Button
+            type="button"
+            className="w-full"
+            onClick={() => navigate("/register")}
+          >
             Kayıt Ol
           </Button>
         </CardFooter>

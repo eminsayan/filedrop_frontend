@@ -43,7 +43,7 @@ const MyFilesPage = () => {
         ) : (
           files.map((file) => (
             <li key={file.id} className="border p-2 rounded">
-              <strong>{file.filename}</strong>
+              <strong>{file.mediaName}</strong>
             </li>
           ))
         )}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const getMyFiles = async (userId) => {
   const response = await fetch(
-    `http://localhost:8080/api/files/my-files?userId=${userId}`
+    `http://localhost:8080/api/files/user-files?userId=${userId}`
   );
   if (!response.ok) {
     throw new Error("Dosyalar getirilemedi");

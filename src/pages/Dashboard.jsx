@@ -7,6 +7,7 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   useEffect(() => {
     const userStr = localStorage.getItem("user");
@@ -61,13 +62,46 @@ export default function Dashboard() {
     }
   };
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const droppedFile = e.dataTransfer.files[0];
+      // Sadece tek dosya bırakıldığında kabul et
+      if (e.dataTransfer.files.length > 1) {
+        toast.info("Birden Fazla Dosya", {
+          description: "Lütfen sadece tek bir dosya yükleyin.",
+        });
+        return;
+      }
+      setSelectedFile(droppedFile);
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-semibold mb-6">
         Hoşgeldin, {user?.username || "Misafir"}
       </h1>
 
-      <div>
+      <div
+        className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200
+                    ${isDragOver ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-gray-50"}`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         <label className="block mb-2 font-medium text-gray-700">
           PDF Dosyanı Seç veya Sürükle
         </label>

@@ -84,7 +84,7 @@ const navigate = useNavigate();
       )}
 
       <button
-        onClick={() => navigate("/my-uploads")}
+        onClick={() => navigate("/user-uploads")}
         className="mt-8 w-full bg-gray-100 py-2 rounded hover:bg-gray-200 text-blue-700 font-semibold"
       >
         Yüklediğim PDF’leri Gör

@@ -18,6 +18,11 @@ const navigate = useNavigate();
     }
   };
 
+   const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
   const handleUpload = async () => {
     if (!selectedFile || !user) return alert("Dosya veya kullanıcı bilgisi yok.");
 
@@ -88,6 +93,12 @@ const navigate = useNavigate();
         className="mt-8 w-full bg-gray-100 py-2 rounded hover:bg-gray-200 text-blue-700 font-semibold"
       >
         Yüklediğim PDF’leri Gör
+      </button>
+        <button
+        onClick={handleLogout}
+        className="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 font-semibold"
+      >
+        Çıkış Yap
       </button>
     </div>
   );

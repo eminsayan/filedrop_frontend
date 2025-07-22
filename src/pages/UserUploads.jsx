@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const getMyFiles = async (userId) => {
+const getUserMedias = async (userId) => {
   const response = await fetch(
     `http://localhost:8080/api/files/user-files?userId=${userId}`
   );
@@ -11,17 +11,17 @@ const getMyFiles = async (userId) => {
 };
 
 
-const MyFilesPage = () => {
-  const [files, setFiles] = useState([]);
+const UserUploadsPage = () => {
+  const [medias, setMedias] = useState([]);
   const [loading, setLoading] = useState(true);
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user?.id;
 
   useEffect(() => {
     if (!userId) return;
-    getMyFiles(userId)
+    getUserMedias(userId)
       .then((data) => {
-        setFiles(data);
+        setMedias(data);
         console.log("Yüklenen dosyalar:", data);
       })
 
@@ -38,12 +38,12 @@ const MyFilesPage = () => {
     <div>
       <h2>Yüklediğim Dosyalar</h2>
       <ul className="mt-4 space-y-2">
-        {files.length === 0 ? (
+        {medias.length === 0 ? (
           <li>Hiç dosya yok.</li>
         ) : (
-          files.map((file) => (
-            <li key={file.id} className="border p-2 rounded">
-              <strong>{file.mediaName}</strong>
+          medias.map((media) => (
+            <li key={media.id} className="border p-2 rounded">
+              <strong>{media.mediaName}</strong>
             </li>
           ))
         )}
@@ -52,4 +52,4 @@ const MyFilesPage = () => {
   );
 };
 
-export default MyFilesPage;
+export default UserUploadsPage;

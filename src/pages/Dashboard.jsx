@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function Dashboard() {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -18,13 +19,16 @@ const navigate = useNavigate();
     }
   };
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/");
   };
 
   const handleUpload = async () => {
-    if (!selectedFile || !user) return alert("Dosya veya kullanıcı bilgisi yok.");
+    if (!selectedFile || !user)
+      return toast.info("Dosya Seçmediniz", {
+        description: "Lütfen yüklemek için bir PDF dosyası seçin.",
+      });
 
     setUploading(true);
 
@@ -39,13 +43,19 @@ const navigate = useNavigate();
       });
 
       if (res.ok) {
-        alert("Dosya başarıyla yüklendi!");
+        toast.success("Dosya Yükleme Başarılı", {
+          description: "Dosyanız başarıyla yüklendi.",
+        });
         setSelectedFile(null);
       } else {
-        alert("Yükleme başarısız oldu.");
+        toast.error("Dosya Yükleme Hatası", {
+          description: "Lütfen daha sonra tekrar deneyin.",
+        });
       }
     } catch {
-      alert("Sunucuya ulaşılamıyor.");
+      toast.info("Sunucuya ulaşılamıyor", {
+        description: "Lütfen daha sonra tekrar deneyin.",
+      });
     } finally {
       setUploading(false);
     }
@@ -94,7 +104,7 @@ const navigate = useNavigate();
       >
         Yüklediğim PDF’leri Gör
       </button>
-        <button
+      <button
         onClick={handleLogout}
         className="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 font-semibold"
       >

@@ -15,6 +15,7 @@ import { api } from "@/api";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 const registerSchema = z.object({
   username: z.string().min(3, "Kullanıcı adı en az 3 karakter olmalı"),
@@ -23,7 +24,7 @@ const registerSchema = z.object({
 
 function RegisterForm() {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(registerSchema),
   });
 
@@ -33,11 +34,15 @@ function RegisterForm() {
         "/auth/register",
         data
       );
-      console.log("Kayıt başarılı:", res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+      toast.success("Kayıt Başarılı", {
+        description: "Dashboard'a yönlendiriliyorsunuz.",
+      });
       navigate("/dashboard");
     } catch (error) {
-      console.error("Kayıt hatası:", error);
-      alert("Kayıt başarısız");
+        toast.error("Kayıt Başarısız", {
+        description: error.response?.data?.message || "Bir hata oluştu.",
+      });
     }
   };
 
@@ -60,6 +65,9 @@ function RegisterForm() {
                 placeholder="Kullanıcı Adı"
                 {...register("username")}
               />
+              {errors.username && (
+                <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
+              )}
             </div>
             <div className="grid gap-2">
               <div className="flex justify-center">
@@ -68,6 +76,9 @@ function RegisterForm() {
                 </Label>
               </div>
               <Input id="password" type="password" {...register("password")} />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              )}
             </div>
           </div>
         </CardContent>

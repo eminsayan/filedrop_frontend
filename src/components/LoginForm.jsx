@@ -1,6 +1,5 @@
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -15,6 +14,7 @@ import { api } from "@/api";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   username: z.string().min(3, "Kullanıcı adı en az 3 karakter olmalı"),
@@ -22,20 +22,24 @@ const loginSchema = z.object({
 });
 
 function LoginForm() {
+
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data) => {
     try {
       const res = await api.post("/auth/login", data);
-      console.log("Giriş başarılı:", res.data);
       localStorage.setItem("user", JSON.stringify(res.data));
       navigate("/dashboard");
+      toast.success("Giriş Başarılı", {
+        description: "Dashboard'a yönlendiriliyorsunuz.",
+      });
     } catch (error) {
-      console.error("Giriş hatası:", error);
-      alert("Giriş başarısız");
+      toast.error("Giriş Başarısız", {
+        description: error.response?.data?.message || "Kullanıcı adı veya şifre yanlış.",
+      });
     }
   };
 
@@ -58,6 +62,9 @@ function LoginForm() {
                 placeholder="Kullanıcı Adı"
                 {...register("username")}
               />
+              {errors.username && (
+                <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
+              )}
             </div>
             <div className="grid gap-2">
               <div className="flex justify-center">
@@ -66,6 +73,9 @@ function LoginForm() {
                 </Label>
               </div>
               <Input id="password" type="password" {...register("password")} />
+               {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              )}
             </div>
           </div>
           <a

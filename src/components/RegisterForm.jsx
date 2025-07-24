@@ -36,9 +36,9 @@ function RegisterForm() {
       );
       localStorage.setItem("user", JSON.stringify(res.data));
       toast.success("Kayıt Başarılı", {
-        description: "Dashboard'a yönlendiriliyorsunuz.",
+        description: "Yönlendiriliyorsunuz.",
       });
-      navigate("/dashboard");
+      navigate("/user-uploads");
     } catch (error) {
         toast.error("Kayıt Başarısız", {
         description: error.response?.data?.message || "Bir hata oluştu.",

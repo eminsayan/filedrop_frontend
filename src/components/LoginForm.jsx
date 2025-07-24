@@ -32,9 +32,9 @@ function LoginForm() {
     try {
       const res = await api.post("/auth/login", data);
       localStorage.setItem("user", JSON.stringify(res.data));
-      navigate("/dashboard");
+      navigate("/user-uploads");
       toast.success("Giriş Başarılı", {
-        description: "Dashboard'a yönlendiriliyorsunuz.",
+        description: "Yönlendiriliyorsunuz.",
       });
     } catch (error) {
       toast.error("Giriş Başarısız", {

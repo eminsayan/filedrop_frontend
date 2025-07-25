@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Dashboard from "../components/Dashboard";
 
 const getUserMedias = async (userId) => {
+
+    // Todo (MK): BE tarafına component'lerden gitmeyelim. Bunun için service oluşturmalıyız ve component'ler bu servisleri
+    // Todo (MK): kullanmalı. Hem yapılan işleri ayırmak açısından, hem de aynı servise gitmek isteyen birden fazla component olabilir.
   const response = await fetch(
     `http://localhost:8080/api/files/user-files?userId=${userId}`
   );

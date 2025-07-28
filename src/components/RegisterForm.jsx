@@ -11,11 +11,11 @@ import { Button } from "@/components/ui/button.jsx";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input.jsx";
 import { useNavigate } from "react-router-dom";
-import { api } from "@/api";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { registerUser } from "@/services/AuthService";
 
 const registerSchema = z.object({
   username: z.string().min(3, "Kullanıcı adı en az 3 karakter olmalı"),
@@ -30,11 +30,8 @@ function RegisterForm() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await api.post(
-        "/auth/register",
-        data
-      );
-      localStorage.setItem("user", JSON.stringify(res.data));
+      const res = await registerUser(data);
+      localStorage.setItem("user", JSON.stringify(res));
       toast.success("Kayıt Başarılı", {
         description: "Yönlendiriliyorsunuz.",
       });

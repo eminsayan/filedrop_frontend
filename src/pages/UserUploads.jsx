@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Dashboard from "../components/Dashboard";
+import {getUserMedias} from "../services/MediaService";
+import { getFullMediaUrl } from "../services/MediaService";
 
-const getUserMedias = async (userId) => {
+const getUserFiles = async (userId) => {
 
-    // Todo (MK): BE tarafına component'lerden gitmeyelim. Bunun için service oluşturmalıyız ve component'ler bu servisleri
-    // Todo (MK): kullanmalı. Hem yapılan işleri ayırmak açısından, hem de aynı servise gitmek isteyen birden fazla component olabilir.
-  const response = await fetch(
-    `http://localhost:8080/api/files/user-files?userId=${userId}`
-  );
+  const response = await getUserMedias(userId);
   if (!response.ok) {
     throw new Error("Dosyalar getirilemedi");
   }
-  return await response.json();
+  return response.json();
 };
+
 
 const UserUploadsPage = () => {
   const [medias, setMedias] = useState([]);
@@ -24,10 +23,10 @@ const UserUploadsPage = () => {
 
   useEffect(() => {
     if (!userId) return;
-    getUserMedias(userId)
-      .then((data) => {
-        setMedias(data);
-        console.log("Yüklenen dosyalar:", data);
+    getUserFiles(userId)
+      .then((response) => {
+        setMedias(response);
+        console.log("Yüklenen dosyalar:", response);
       })
       .catch((error) => {
         console.error("Hata:", error);
@@ -83,7 +82,7 @@ const UserUploadsPage = () => {
                   key={media.id}
                   className="grid grid-cols-3 gap-2 text-sm items-center border p-2 rounded hover:bg-gray-100 cursor-pointer"
                   onClick={() =>
-                    setSelectedMedia(`http://localhost:8080/${media.mediaPath}`)
+                    setSelectedMedia(getFullMediaUrl(media.mediaPath))
                   }
                 >
                   <span className="truncate">{media.mediaName}</span>

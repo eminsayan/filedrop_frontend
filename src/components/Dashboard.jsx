@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { uploadMedia } from "../services/MediaService";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -38,10 +39,7 @@ export default function Dashboard() {
     formData.append("userId", user.id);
 
     try {
-      const res = await fetch("http://localhost:8080/api/files/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await uploadMedia(formData);
 
       if (res.ok) {
         toast.success("Dosya Yükleme Başarılı", {

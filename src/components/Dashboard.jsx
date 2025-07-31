@@ -38,26 +38,29 @@ export default function Dashboard() {
     formData.append("file", selectedFile);
     formData.append("userId", user.id);
 
-    try {
-      const res = await uploadMedia(formData);
+ try {
+  const res = await uploadMedia(formData);
+  console.log("Upload response:", res);
 
-      if (res.ok) {
-        toast.success("Dosya Yükleme Başarılı", {
-          description: "Dosyanız başarıyla yüklendi.",
-        });
-        setSelectedFile(null);
-      } else {
-        toast.error("Dosya Yükleme Hatası", {
-          description: "Lütfen daha sonra tekrar deneyin.",
-        });
-      }
-    } catch {
-      toast.info("Sunucuya ulaşılamıyor", {
-        description: "Lütfen daha sonra tekrar deneyin.",
-      });
-    } finally {
-      setUploading(false);
-    }
+  if (res && res.id) { 
+    toast.success("Dosya Yükleme Başarılı", {
+      description: "Dosyanız başarıyla yüklendi.",
+    });
+    setSelectedFile(null);
+  } else {
+
+    toast.error("Dosya Yükleme Hatası", {
+      description: "Sunucudan beklenen yanıt alınamadı veya bir sorun oluştu.",
+    });
+  }
+} catch (error) {
+  console.error("Yükleme sırasında bir hata oluştu:", error);
+  toast.info("Sunucuya ulaşılamıyor", {
+    description: "Lütfen internet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.",
+  });
+} finally {
+  setUploading(false);
+}
   };
 
   const handleDragOver = (e) => {
